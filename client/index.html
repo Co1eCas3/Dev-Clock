@@ -95,12 +95,14 @@
           let newGoal = {};
           if (goalInput.hasAttribute("data-goalid")) {
             newGoal.goalId = goalInput.getAttribute("data-goalid");
-            if (goalInput.checked) {
-              newGoal.doCompletion = sessionData.end;
-            }
           } else {
             newGoal.doCreation = sessionData.start;
           }
+
+          if (goalInput.checked) {
+            newGoal.doCompletion = sessionData.end;
+          }
+
           newGoal.goal = goalInput.nextElementSibling.textContent;
           newGoal.completed = goalInput.checked;
 
