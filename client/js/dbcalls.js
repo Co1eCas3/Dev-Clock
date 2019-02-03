@@ -37,7 +37,7 @@ window.onload = () => {
 
 async function getIncompleteGoals() {
   const response = await fetch(
-    "http://localhost:5000/api/sessions/incomplete_goals"
+    "https://limitless-atoll-73536.herokuapp.com/api/sessions/incomplete_goals"
   );
   const incompleteGoals = await response.json();
   return incompleteGoals;
@@ -137,13 +137,16 @@ async function submitToDB(e, sessionData) {
     })
   );
 
-  const response = await fetch("http://localhost:5000/api/log_session", {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json"
-    },
-    body: JSON.stringify(sessionData)
-  });
+  const response = await fetch(
+    "https://limitless-atoll-73536.herokuapp.com/api/log_session",
+    {
+      method: "POST",
+      headers: {
+        "Content-type": "application/json"
+      },
+      body: JSON.stringify(sessionData)
+    }
+  );
 
   const resData = await response;
   return resData;
