@@ -127,7 +127,7 @@ async function submitToDB(e, sessionData) {
       if (goalToConvert.goalId !== undefined) {
         goalToBeSubbed.goalId = goalToConvert.goalId;
         if (goalToConvert.completed) {
-          goalToBeSubbed.completed = goalToConvert.completed.toString();
+          goalToBeSubbed.completed = goalToConvert.completed;
           goalToBeSubbed.doCompletion = goalToConvert.doCompletion;
         }
       } else {

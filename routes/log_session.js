@@ -116,10 +116,10 @@ router.post("/log_session", (req, res) => {
     insertedGoals = [];
 
   sessionGoals.forEach(goal => {
-    if (goal.completed !== undefined) {
-      goal.completed =
-        goal.completed === "true" || !(goal.completed === "false");
-    }
+    // if (goal.completed !== undefined) {
+    //   goal.completed =
+    //     goal.completed === "true" || !(goal.completed === "false");
+    // }
 
     if (goal.goalId) {
       if (goal.completed) {
