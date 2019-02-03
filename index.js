@@ -1,3 +1,4 @@
+const path = require("path");
 const express = require("express");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
@@ -36,6 +37,14 @@ const db = mongoose.connection;
 
 app.use("/api", log_session);
 app.use("/api", sessions);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "index.html"));
+  });
+}
 
 const port = process.env.PORT || 5000;
 
