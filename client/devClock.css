@@ -1,0 +1,199 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+}
+
+#container {
+  width: 465px;
+  height: 562px;
+  margin: 0 auto;
+}
+
+.flex-column {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-around;
+}
+
+#clock-cont {
+  width: 100%;
+  height: 150px;
+  background: #e4e4e4;
+  border-bottom: 1px dashed #6e6e6e;
+}
+
+#counter {
+  margin: 0 auto;
+  font-size: 3rem;
+}
+
+#seconds {
+  padding-left: 4px;
+  font-size: 1.3rem;
+}
+
+#buttons {
+  width: 170px;
+  margin: 0 auto;
+  padding: 8px 0;
+  justify-content: space-between;
+}
+
+#buttons > label {
+  width: 78px;
+  padding: 4px 12px;
+  border: 1px solid #303030;
+  border-radius: 7px;
+  text-align: center;
+}
+
+#buttons > input {
+  display: none;
+}
+
+#goals {
+  width: 100%;
+  height: 370px;
+  padding: 20px 28px;
+  background: #e4e4e4;
+  font-size: 1.2rem;
+}
+
+.goal {
+  width: 90%;
+  margin-bottom: 20px;
+}
+
+.goal > label {
+  flex-grow: 2;
+}
+
+.goal > input[type="checkbox"] {
+  width: 8%;
+  align-self: center;
+}
+
+.goal > input:checked ~ label {
+  text-decoration: line-through;
+}
+
+#add-goal {
+  height: 3rem;
+  padding: 4px 20px;
+  border-top: 1px solid #6e6e6e;
+  background: #8d8d8d;
+}
+
+input[name="add-goal"] {
+  width: 90%;
+  height: 1.6rem;
+  border: 1px solid #cacaca;
+  border-radius: 7px;
+  margin: auto;
+}
+
+#add-goal-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 100%;
+  font-size: 1.5rem;
+  color: #6e6e6e;
+}
+
+#backdrop {
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+#modal {
+  justify-content: space-between;
+  width: 95%;
+  height: 60%;
+  position: relative;
+  margin: 15% auto;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background: #ececec;
+}
+
+#modal-info {
+  overflow-y: scroll;
+  flex-grow: 2;
+  padding: 20px;
+}
+
+.field {
+  justify-content: flex-start;
+  margin-bottom: 15px;
+}
+
+.field strong {
+  width: 100px;
+}
+
+.field ul {
+  list-style-type: none;
+  position: relative;
+}
+
+.field li {
+  margin-bottom: 8px;
+}
+
+.checked::before {
+  content: "\2713";
+  position: absolute;
+  left: -15px;
+}
+
+#continue,
+#submit {
+  width: 100px;
+  height: 30px;
+  margin: 0 auto;
+  border-radius: 7px;
+  font-size: 1.1rem;
+}
+
+#continue {
+  width: 100px;
+}
+
+#submit {
+  width: 120px;
+}
+
+#loader {
+  width: 200px;
+  height: 200px;
+  margin: 10% auto;
+  border: 5px solid #989898;
+  border-top-color: #505050;
+  border-radius: 50%;
+  animation: spin 2s linear 0s infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

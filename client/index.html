@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>DevClock</title>
+    <link rel="stylesheet" href="devClock.css" />
+    <script src="js/templates.js"></script>
+  </head>
+  <body>
+    <div id="container" class="flex-column" style="justify-content: start;">
+      <section id="clock-cont" class="flex-column">
+        <div id="counter">
+          <span id="hours">00:</span><span id="minutes">00</span
+          ><span id="seconds">:00</span>
+        </div>
+        <div id="buttons" class="flex-row">
+          <label for="start-counter" id="start-btn">START</label>
+          <label for="stop-counter" id="stop-btn">STOP</label>
+          <input type="text" name="start-counter" id="start-counter" />
+          <input type="text" name="stop-counter" id="stop-counter" />
+        </div>
+      </section>
+      <section id="goals"></section>
+      <section id="add-goal" class="flex-row">
+        <input type="text" name="add-goal" />
+        <button id="add-goal-btn">+</button>
+      </section>
+
+      <div id="backdrop">
+        <section id="modal" class="flex-column">
+          <div id="loader"></div>
+        </section>
+      </div>
+    </div>
+
+    <script id="clock-stuff">
+      const doc = window.document;
+
+      const clockCont = doc.getElementById("counter");
+      let seconds = doc.getElementById("seconds"),
+        minutes = doc.getElementById("minutes"),
+        hours = doc.getElementById("hours"),
+        counter,
+        stopCounterHandler;
+
+      const startBtn = doc.getElementById("start-btn"),
+        startTimeInput = doc.getElementById("start-counter"),
+        stopBtn = doc.getElementById("stop-btn"),
+        stopTimeInput = doc.getElementById("stop-counter");
+
+      startBtn.addEventListener("click", function startClock() {
+        startTimeInput.value = new Date();
+        startBtn.removeEventListener("click", startClock);
+        clockCont.style.color = "green";
+        counter = setInterval(startCounter, 1000);
+        const stopCounterHandler = e => stopCounter(counter);
+        stopBtn.addEventListener("click", stopCounterHandler);
+      });
+
+      function startCounter() {
+        let second = parseInt(seconds.textContent.replace(":", "")),
+          minute = parseInt(minutes.textContent),
+          hour = parseInt(hours.textContent.replace(":", ""));
+
+        if (second < 59) {
+          seconds.textContent =
+            second < 9 ? `:0${second + 1}` : `:${second + 1}`;
+        } else if (minute < 59) {
+          seconds.textContent = `:00`;
+          minutes.textContent = minute < 9 ? `0${minute + 1}` : `${minute + 1}`;
+        } else {
+          seconds.textContent = `:00`;
+          minutes.textContent = `00`;
+          hours.textContent = hour < 9 ? `0${hour + 1}:` : `${hour + 1}:`;
+        }
+      }
+
+      function stopCounter(counter) {
+        clearInterval(counter);
+        stopBtn.removeEventListener("click", stopCounterHandler);
+        stopTimeInput.value = new Date();
+        gatherSessionData();
+      }
+
+      function gatherSessionData() {
+        const sessionData = {},
+          goalList = doc.querySelectorAll("#goals input");
+
+        sessionData.start = startTimeInput.value;
+        sessionData.end = stopTimeInput.value;
+        sessionData.goals = [];
+        goalList.forEach(goalInput => {
+          let newGoal = {};
+          if (goalInput.hasAttribute("data-goalid")) {
+            newGoal.goalId = goalInput.getAttribute("data-goalid");
+            if (goalInput.checked) {
+              newGoal.doCompletion = sessionData.end;
+            }
+          } else {
+            newGoal.doCreation = sessionData.start;
+          }
+          newGoal.goal = goalInput.nextElementSibling.textContent;
+          newGoal.completed = goalInput.checked;
+
+          sessionData.goals.push(newGoal);
+        });
+        postSession(sessionData);
+      }
+    </script>
+    <script id="list-stuff">
+      const addGoalInput = doc.querySelector("input[name=add-goal]"),
+        addGoalBtn = doc.getElementById("add-goal-btn"),
+        goalsSection = doc.getElementById("goals");
+
+      let goalCount = 0;
+
+      addGoalBtn.addEventListener("click", e => {
+        e.preventDefault();
+        if (addGoalInput.value.length) {
+          goalCount++;
+          addGoal(addGoalInput.value);
+        }
+      });
+
+      function addGoal(input) {
+        let newGoalTemp = templates.goal;
+        newGoalTemp = newGoalTemp.replace(/replace-goal-count/g, goalCount);
+        newGoalTemp = newGoalTemp.replace("replace-input-val", input);
+        goalsSection.innerHTML += newGoalTemp;
+        addGoalInput.value = "";
+      }
+    </script>
+    <script src="js/dbcalls.js"></script>
+  </body>
+</html>
